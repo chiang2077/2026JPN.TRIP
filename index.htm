@@ -136,14 +136,14 @@
       }
 
       return (
-        <div className="flex items-center gap-3 bg-white/15 px-4 py-2 rounded-xl border border-white/20">
+        <div className="flex items-center gap-3 bg-white/80 px-4 py-2 rounded-xl border border-stone-200 shadow-sm">
           {display.icon}
           <div className="flex flex-col">
             <div className="flex items-baseline gap-2">
-              <span className="text-base md:text-lg font-bold text-white">{weather.max}°</span>
-              <span className="text-sm text-stone-300">/ {weather.min}°C</span>
+              <span className="text-base md:text-lg font-bold text-stone-800">{weather.max}°</span>
+              <span className="text-sm text-stone-500">/ {weather.min}°C</span>
             </div>
-            <span className="text-xs text-stone-400 font-bold tracking-wider uppercase leading-none mt-0.5">
+            <span className="text-xs text-stone-500 font-bold tracking-wider uppercase leading-none mt-0.5">
               {weather.isForecast ? '即時預報' : '4月均溫'}
             </span>
           </div>
@@ -346,8 +346,9 @@
             </div>
             
             <div className="relative z-10 text-center px-4 mt-16">
-              <div className="inline-block px-4 py-2 mb-6 border border-white/60 text-white tracking-widest text-base font-bold backdrop-blur-sm bg-black/10 rounded-full shadow-sm">
-                SPRING 2026
+              <p className="text-sm md:text-base text-white/80 tracking-[0.3em] font-bold mb-4 drop-shadow-sm font-serif-tc">長肜旅行社年度鉅獻</p>
+              <div className="inline-block px-4 py-2 mb-6 border border-white/60 text-white tracking-widest text-base font-bold backdrop-blur-sm bg-black/10 rounded-full shadow-sm font-serif-tc">
+                2026.春
               </div>
               <h1 className="text-4xl md:text-6xl font-serif-tc font-bold text-white tracking-widest mb-4 drop-shadow-md">
                 春之櫻紀行
@@ -398,55 +399,30 @@
               </div>
 
               <div className="bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden">
-                {/* 桌面端 grid 佈局 */}
-                <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-stone-200">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-stone-200">
                   {itineraryData.map((day) => (
-                    <div key={day.day} className="bg-white p-6 transition-colors hover:bg-stone-50 cursor-pointer flex flex-col h-full" onClick={() => { setActiveTab('itinerary'); setTimeout(() => document.getElementById(`day-${day.day}`).scrollIntoView(), 100); }}>
-                      <div className="flex items-start justify-between mb-4">
+                    <div key={day.day} className="bg-white p-4 md:p-6 transition-colors hover:bg-stone-50 cursor-pointer flex flex-col h-full" onClick={() => { setActiveTab('itinerary'); setTimeout(() => document.getElementById(`day-${day.day}`).scrollIntoView(), 100); }}>
+                      <div className="flex items-start justify-between mb-3 md:mb-4">
                         <div>
-                          <span className="text-pink-700 font-bold text-xl block mb-0.5">Day {day.day}</span>
-                          <span className="text-stone-500 text-sm font-medium">{day.date} ({day.weekday})</span>
+                          <span className="text-pink-700 font-bold text-lg md:text-xl block mb-0.5">Day {day.day}</span>
+                          <span className="text-stone-500 text-xs md:text-sm font-medium">{day.date} ({day.weekday})</span>
                         </div>
-                        <WeatherWidget 
-                          targetDateStr={day.fullDate} 
-                          lat={day.weatherParam.lat} 
-                          lon={day.weatherParam.lon} 
-                          city={day.weatherParam.city}
-                          variant="compact"
-                        />
+                        <div className="hidden sm:block">
+                          <WeatherWidget 
+                            targetDateStr={day.fullDate} 
+                            lat={day.weatherParam.lat} 
+                            lon={day.weatherParam.lon} 
+                            city={day.weatherParam.city}
+                            variant="compact"
+                          />
+                        </div>
                       </div>
-                      <h3 className="font-serif-tc text-stone-800 font-bold text-lg mb-4 line-clamp-2 leading-snug">
+                      <h3 className="font-serif-tc text-stone-800 font-bold text-sm md:text-lg mb-3 md:mb-4 line-clamp-2 leading-snug">
                         {day.title}
                       </h3>
-                      <div className="flex items-start gap-2 text-stone-600 text-base font-medium mt-auto pt-2 border-t border-stone-100">
-                        <MapPin size={18} className="mt-0.5 shrink-0 text-stone-400" />
-                        <span>{day.location}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/* 手機端橫向捲動 */}
-                <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-3 p-4 -mx-0">
-                  {itineraryData.map((day) => (
-                    <div key={day.day} className="snap-start shrink-0 w-[75vw] bg-white p-5 rounded-xl border border-stone-200 shadow-sm cursor-pointer flex flex-col" onClick={() => { setActiveTab('itinerary'); setTimeout(() => document.getElementById(`day-${day.day}`).scrollIntoView(), 100); }}>
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <span className="text-pink-700 font-bold text-lg block mb-0.5">Day {day.day}</span>
-                          <span className="text-stone-500 text-xs font-medium">{day.date} ({day.weekday})</span>
-                        </div>
-                        <WeatherWidget 
-                          targetDateStr={day.fullDate} 
-                          lat={day.weatherParam.lat} 
-                          lon={day.weatherParam.lon} 
-                          city={day.weatherParam.city}
-                          variant="compact"
-                        />
-                      </div>
-                      <h3 className="font-serif-tc text-stone-800 font-bold text-base mb-3 line-clamp-2 leading-snug">
-                        {day.title}
-                      </h3>
-                      <div className="flex items-start gap-2 text-stone-600 text-sm font-medium mt-auto pt-2 border-t border-stone-100">
-                        <MapPin size={16} className="mt-0.5 shrink-0 text-stone-400" />
+                      <div className="flex items-start gap-1.5 md:gap-2 text-stone-600 text-xs md:text-base font-medium mt-auto pt-2 border-t border-stone-100">
+                        <MapPin size={14} className="mt-0.5 shrink-0 text-stone-400 md:hidden" />
+                        <MapPin size={18} className="mt-0.5 shrink-0 text-stone-400 hidden md:block" />
                         <span>{day.location}</span>
                       </div>
                     </div>
@@ -457,21 +433,16 @@
 
             {/* --- TAB: DETAILED ITINERARY --- */}
             <div className={`space-y-16 ${activeTab === 'itinerary' ? 'block animate-in fade-in duration-500' : 'hidden'}`}>
-              {/* 浮動返回按鈕 */}
+              {/* 浮動回到頂部按鈕 */}
               {activeTab === 'itinerary' && (
                 <button
                   onClick={() => {
-                    setActiveTab('overview');
-                    setTimeout(() => {
-                      const el = document.getElementById('tab-content-start');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="fixed bottom-6 right-6 z-50 flex items-center gap-2 text-white font-bold text-sm px-4 py-3 bg-stone-800/90 hover:bg-pink-700 backdrop-blur-sm rounded-full shadow-lg transition-all hover:scale-105"
-                  title="返回行程總覽"
+                  className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-12 h-12 text-white bg-stone-800/80 hover:bg-pink-700 backdrop-blur-sm rounded-full shadow-lg transition-all hover:scale-105"
+                  title="回到頂部"
                 >
-                  <ArrowLeft size={18} />
-                  <span className="hidden sm:inline">總覽</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
                 </button>
               )}
               {itineraryData.map((day, idx) => (
@@ -484,19 +455,19 @@
 
                   <div className="relative z-10 rounded-3xl shadow-md border border-stone-200 overflow-hidden">
                     
-                    {/* Header - 深色錨點 */}
-                    <div className="bg-stone-800 px-6 md:px-10 pt-6 md:pt-8 pb-6">
+                    {/* Header - 柔和漸層 */}
+                    <div className="bg-gradient-to-r from-stone-100 to-pink-50 px-6 md:px-10 pt-6 md:pt-8 pb-6 border-b-2 border-stone-200">
                       <div className="flex flex-col lg:flex-row lg:items-end gap-6">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-3">
-                            <span className="bg-white/15 text-white text-sm md:text-base font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/20">
+                            <span className="bg-stone-800 text-white text-sm md:text-base font-bold px-4 py-1.5 rounded-full tracking-widest shadow-sm">
                               DAY {day.day}
                             </span>
-                            <span className="text-pink-300 font-serif-tc text-lg tracking-widest font-bold">
+                            <span className="text-pink-600 font-serif-tc text-lg tracking-widest font-bold">
                               {day.date} ({day.weekday})
                             </span>
                           </div>
-                          <h2 className="text-3xl md:text-4xl font-serif-tc font-bold text-white leading-tight">
+                          <h2 className="text-3xl md:text-4xl font-serif-tc font-bold text-stone-900 leading-tight">
                             {day.title}
                           </h2>
                         </div>
@@ -566,8 +537,16 @@
 
                     {/* Content Area (Timeline + Side Image) */}
                     <div className="flex flex-col md:flex-row gap-10 mt-8">
+                      {/* Side Image - 手機端排前面 */}
+                      {day.image && (
+                        <div className="w-full md:w-72 lg:w-80 shrink-0 order-first md:order-last">
+                          <div className="md:sticky md:top-28 rounded-2xl overflow-hidden border border-stone-200 shadow-md aspect-[16/9] md:aspect-[3/4]">
+                            <img src={day.image} alt="相關插圖" className="w-full h-full object-cover img-unified" />
+                          </div>
+                        </div>
+                      )}
                       {/* Timeline */}
-                      <div className="flex-1 space-y-8">
+                      <div className="flex-1 space-y-8 order-last md:order-first">
                         {day.events.map((event, i) => (
                           <div key={i} className="flex gap-4 md:gap-6 group">
                             <div className="flex flex-col items-center">
@@ -588,15 +567,23 @@
                         ))}
                         
                       </div>
+                    </div>
 
-                      {/* Side Image */}
-                      {day.image && (
-                        <div className="w-full md:w-72 lg:w-80 shrink-0">
-                          <div className="sticky top-28 rounded-2xl overflow-hidden border border-stone-200 shadow-md aspect-[4/3] md:aspect-[3/4]">
-                            <img src={day.image} alt="相關插圖" className="w-full h-full object-cover img-unified" />
-                          </div>
-                        </div>
-                      )}
+                    {/* 返回行程總覽按鈕 */}
+                    <div className="pt-4 pb-2 flex justify-center">
+                      <button
+                        onClick={() => {
+                          setActiveTab('overview');
+                          setTimeout(() => {
+                            const el = document.getElementById('tab-content-start');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                          }, 100);
+                        }}
+                        className="flex items-center gap-2 text-stone-600 hover:text-pink-700 font-bold text-base transition-all px-6 py-3 bg-stone-100 hover:bg-pink-50 rounded-full border border-stone-200 hover:border-pink-200 shadow-sm hover:shadow"
+                      >
+                        <ArrowLeft size={18} />
+                        返回行程總覽
+                      </button>
                     </div>
 
                     </div>{/* end bg-white body */}
@@ -684,7 +671,6 @@
           </main>
           
           <footer className="py-10 text-center text-stone-500 tracking-widest mt-16 border-t-2 border-stone-200 space-y-4">
-            <p className="font-serif-tc text-base font-bold text-stone-700">長肜旅行社年度鉅獻</p>
             <p className="text-sm font-medium">NIIGATA & TOKYO ITINERARY © 2026</p>
           </footer>
         </div>
